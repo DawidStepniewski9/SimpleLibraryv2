@@ -5,11 +5,11 @@ namespace SimpleLibraryv2.DAL
 {
     public class DbContextSimpleLibrary : DbContext
     {
-        public DbContextSimpleLibrary() : base()
-               {
+        public DbContextSimpleLibrary(DbContextOptions<DbContextSimpleLibrary> options) : base(options) 
+        { 
 
-               }
+        }
 
-        public DbSet<Book> book {  get; set; }
+        public DbSet<Book> Books {  get; set; }
     }
 }
