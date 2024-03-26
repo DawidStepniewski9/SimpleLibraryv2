@@ -32,33 +32,28 @@ namespace SimpleLibraryv2.Services
             await _repository.Create(book);
         }
 
-        //public async Task Update(Book book)
-        //{
-        //    if( await _repository.GetById(book.Id) != null)
-        //    {
-        //       await _repository.Update(book);
-        //    }
-        //    else 
-        //    { 
-        //        throw new Exception("No book in library"); 
-        //    }
-
-            //if (await GetById(book.Id) != null)
-            //{
-            //    _db.Books.Update(book);
-            //}
-            //else
-            //{
-            //    throw new Exception("No book in library");
-            //}
-        //}
+        public async Task Update(long id, BookDTO bookDTO)
+        {
+            var bookToUpdate = await _repository.GetById(id);
+            if (bookToUpdate != null)
+            {
+                bookToUpdate.Author = bookDTO.Author;
+                bookToUpdate.Title = bookDTO.Title; 
+                bookToUpdate.Year = bookDTO.Year;
+                await _repository.Update(bookToUpdate);
+            }
+            else
+            {
+                throw new Exception("No book in library");
+            }
+        }
 
         public async Task Delete(long id)
         {
             var bookToDelete = await _repository.GetById(id);
             if (bookToDelete != null)
             {
-                _repository.Delete(id);
+                await _repository.Delete(bookToDelete);
             }
             else
             {

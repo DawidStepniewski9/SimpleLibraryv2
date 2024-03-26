@@ -7,7 +7,7 @@ namespace SimpleLibraryv2.Services
         Task<List<Book>> GetBooks();
         Task<Book> GetBook(long id);
         Task Create(BookDTO bookDTO);
-        //Task Update(Book book);
+        Task Update(long id, BookDTO bookDTO);
         Task Delete(long id);
     }
 }

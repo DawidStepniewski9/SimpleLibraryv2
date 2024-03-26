@@ -28,15 +28,13 @@ namespace SimpleLibraryv2.Repository
         {
             return await _db.Books.ToListAsync();
         }
-        //public async Task Update(Book book)
-        //{
-        //    _db.Books.Update(book);
-        //    await _db.SaveChangesAsync();         
-        //}
-        public async Task Delete(long id) 
+        public async Task Update(Book bookToUpdate)
         {
-            var bookToDelete = await GetById(id);
-
+            _db.Books.Update(bookToUpdate);
+            await _db.SaveChangesAsync();
+        }
+        public async Task Delete(Book bookToDelete) 
+        {
             _db.Books.Remove(bookToDelete);
             await _db.SaveChangesAsync();
         }

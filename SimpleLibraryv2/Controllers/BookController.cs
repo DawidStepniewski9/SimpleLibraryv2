@@ -50,12 +50,12 @@ namespace SimpleLibraryv2.Controllers
             return Ok();
         }
 
-        //[HttpPost("/Update")]
-        //public async Task<IActionResult> Update(Book book)
-        //{ 
-        //    await _service.Update(book);
-        //    return Ok();
-        //}
+        [HttpPost("/Update")]
+        public async Task<IActionResult> Update(long id, BookDTO bookDTO)
+        {
+            await _service.Update(id, bookDTO);
+            return Ok();
+        }
 
         [HttpPost("/Delete/{bookId}")]
         public async Task<IActionResult> Delete(long bookId)
