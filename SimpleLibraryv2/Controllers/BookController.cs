@@ -1,3 +1,4 @@
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using SimpleLibraryv2.Models;
 using SimpleLibraryv2.Services;
@@ -50,19 +51,42 @@ namespace SimpleLibraryv2.Controllers
             return Ok();
         }
 
-        [HttpPost("/Update")]
-        public async Task<IActionResult> Update(long id, BookDTO bookDTO)
+        [HttpPost("/Update/{bookId}")]
+        public async Task<IActionResult> Update([FromRoute] long bookId, [FromBody] BookDTO bookDTO)
         {
-            await _service.Update(id, bookDTO);
+            await _service.Update(bookId, bookDTO);
             return Ok();
         }
 
-        [HttpPost("/Delete/{bookId}")]
+        [HttpDelete("/Delete/{bookId}")]
         public async Task<IActionResult> Delete(long bookId)
         {
             await _service.Delete(bookId);
             return Ok();
         }
+
+        [HttpPatch("/Patch/{id}")]
+        public async Task<IActionResult> Patch([FromRoute] long id, [FromBody] string title)
+        {
+            var updatedBook = await _service.UpdateBook(id, title);
+            if (updatedBook == null)
+            {
+                return NotFound();
+            }
+            return Ok(updatedBook);
+        }
+
+        [HttpPut("/Put/{id}")]
+        public async Task<IActionResult> Put([FromRoute] long id, [FromBody] BookModelPut bookModelPut)
+        { 
+            var updatedBook = await _service.UpdateBook(id, bookModelPut);
+            if (updatedBook == null)
+            {
+                return NotFound();
+            }
+            return Ok(updatedBook);
+        }
+
 
     }
 }

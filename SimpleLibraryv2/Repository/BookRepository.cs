@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using SimpleLibraryv2.DAL;
 using SimpleLibraryv2.Models;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.JsonPatch;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace SimpleLibraryv2.Repository
 {

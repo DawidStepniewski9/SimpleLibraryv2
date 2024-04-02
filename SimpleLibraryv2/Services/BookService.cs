@@ -1,6 +1,10 @@
-﻿using SimpleLibraryv2.Models;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
+using SimpleLibraryv2.Models;
 using SimpleLibraryv2.Repository;
 using System.Reflection;
+using static SimpleLibraryv2.Services.BookService;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace SimpleLibraryv2.Services
 {
@@ -24,10 +28,7 @@ namespace SimpleLibraryv2.Services
 
         public async Task Create(BookDTO bookDTO)
         {
-            Book book = new Book(); 
-            book.Author = bookDTO.Author;
-            book.Title = bookDTO.Title;
-            book.Year = bookDTO.Year;
+            Book book = BookMapperService.Mapp(bookDTO);
 
             await _repository.Create(book);
         }
@@ -40,6 +41,7 @@ namespace SimpleLibraryv2.Services
                 bookToUpdate.Author = bookDTO.Author;
                 bookToUpdate.Title = bookDTO.Title; 
                 bookToUpdate.Year = bookDTO.Year;
+
                 await _repository.Update(bookToUpdate);
             }
             else
@@ -59,6 +61,37 @@ namespace SimpleLibraryv2.Services
             {
                 throw new Exception("No book in library");
             }
+        }
+
+
+        public async Task<Book> UpdateBook(long id, string title)
+        {
+            var bookQuery = await _repository.GetById(id);
+            if (bookQuery == null)
+            {
+                return bookQuery;
+            }
+
+            bookQuery.Title = title;
+
+            await _repository.Update(bookQuery);         
+
+            return bookQuery;
+        }
+
+        public async Task<Book> UpdateBook(long id, BookModelPut bookModelPut)
+        { 
+            var dbBook = await _repository.GetById(id);
+            if(dbBook == null)
+            {
+                return dbBook;
+            }
+            dbBook.Author = bookModelPut.Author;
+            dbBook.Title = bookModelPut.Title;
+
+            await _repository.Update(dbBook);
+
+            return dbBook;
         }
 
     }

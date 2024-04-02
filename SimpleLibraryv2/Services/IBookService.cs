@@ -1,4 +1,6 @@
-﻿using SimpleLibraryv2.Models;
+﻿using Azure;
+using SimpleLibraryv2.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace SimpleLibraryv2.Services
 {
@@ -9,5 +11,7 @@ namespace SimpleLibraryv2.Services
         Task Create(BookDTO bookDTO);
         Task Update(long id, BookDTO bookDTO);
         Task Delete(long id);
+        Task<Book> UpdateBook(long id, string bookDocument);
+        Task<Book> UpdateBook(long id, BookModelPut bookModelPut);
     }
 }
