@@ -2,6 +2,7 @@ using Azure;
 using Microsoft.AspNetCore.Mvc;
 using SimpleLibraryv2.Models;
 using SimpleLibraryv2.Services;
+using SimpleLibraryv2.Validation;
 
 namespace SimpleLibraryv2.Controllers
 {
@@ -46,9 +47,18 @@ namespace SimpleLibraryv2.Controllers
 
         [HttpPost("/Add")]
         public async Task<IActionResult> Create(BookDTO bookDTO)
-        { 
-            await _service.Create(bookDTO);
-            return Ok();
+        {
+            var validator = new BookDTOValidator();
+            var result = validator.Validate(bookDTO);
+            if (result.IsValid)
+            {
+                await _service.Create(bookDTO);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
 
         [HttpPost("/Update/{bookId}")]
