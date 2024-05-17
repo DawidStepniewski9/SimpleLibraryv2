@@ -30,6 +30,8 @@ namespace SimpleLibraryv2.Services
         {
             Book book = BookMapperService.Mapp(bookDTO);
 
+            book.Title = Extensions.ToUpperFirstLetter(book.Title);
+
             await _repository.Create(book);
         }
 

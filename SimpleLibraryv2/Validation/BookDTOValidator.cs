@@ -14,7 +14,7 @@ namespace SimpleLibraryv2.Validation
             RuleFor(a => a.Author)
                 .NotEmpty()
                 .Length(1, 30)
-                .Matches(@"^[A-Za-z\s]*$");
+                .Matches(@"^[A-Z][A-Za-z\s]*$");
             RuleFor(y => y.Year)
                 .NotEmpty()
                 .LessThanOrEqualTo(DateTime.Now.Year)
